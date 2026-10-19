@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleIdentifier</key>
+    <string>com.dockmate.app</string>
+    <key>CFBundleName</key>
+    <string>DockMate</string>
+    <key>CFBundleDisplayName</key>
+    <string>DockMate</string>
+    <key>CFBundleExecutable</key>
+    <string>DockMate</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>14.0</string>
+    <key>LSUIElement</key>
+    <true/>
+    <key>NSSupportsAutomaticGraphicsSwitching</key>
+    <true/>
+    <key>NSScreenCaptureUsageDescription</key>
+    <string>DockMate, açık pencerelerin canlı önizlemelerini Dock üzerinde gösterebilmek için ekran kaydı erişimine ihtiyaç duyar.</string>
+    <key>NSAppleEventsUsageDescription</key>
+    <string>DockMate, pencereleri yönetmek ve müzik kontrollerini sağlamak için Apple Events erişimine ihtiyaç duyar.</string>
+    <key>NSAccessibilityUsageDescription</key>
+    <string>DockMate, Dock simgelerini tespit etmek ve pencereleri yönetmek için Erişilebilirlik iznine ihtiyaç duyar.</string>
+</dict>
+</plist>

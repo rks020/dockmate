@@ -1,0 +1,6 @@
+.build/
+DockMate.app/
+*.xcodeproj
+.DS_Store
+.swiftpm/
+Package.resolved
