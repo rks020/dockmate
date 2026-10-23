@@ -7,21 +7,25 @@ public struct WindowPreviewCardView: View {
     public let onSelect: (WindowInfo) -> Void
     public let onClose: (WindowInfo) -> Void
     public let onMinimize: (WindowInfo) -> Void
+    public let onHoverFocus: ((WindowInfo) -> Void)?
 
     @State private var isHovered: Bool = false
+    @State private var hoverFocusWorkItem: DispatchWorkItem?
 
     public init(
         window: WindowInfo,
         previewSize: PreviewSize,
         onSelect: @escaping (WindowInfo) -> Void,
         onClose: @escaping (WindowInfo) -> Void,
-        onMinimize: @escaping (WindowInfo) -> Void
+        onMinimize: @escaping (WindowInfo) -> Void,
+        onHoverFocus: ((WindowInfo) -> Void)? = nil
     ) {
         self.window = window
         self.previewSize = previewSize
         self.onSelect = onSelect
         self.onClose = onClose
         self.onMinimize = onMinimize
+        self.onHoverFocus = onHoverFocus
     }
 
     public var body: some View {
@@ -129,10 +133,25 @@ public struct WindowPreviewCardView: View {
         .padding(2)
         .contentShape(Rectangle())
         .onTapGesture {
+            hoverFocusWorkItem?.cancel()
             onSelect(window)
         }
         .onHover { hovering in
             isHovered = hovering
+            hoverFocusWorkItem?.cancel()
+            hoverFocusWorkItem = nil
+
+            // Bring the window to front after a short hover, without requiring a click
+            if hovering, let onHoverFocus = onHoverFocus, SettingsManager.shared.focusOnHover {
+                let target = window
+                let item = DispatchWorkItem { onHoverFocus(target) }
+                hoverFocusWorkItem = item
+                DispatchQueue.main.asyncAfter(deadline: .now() + SettingsManager.shared.focusOnHoverDelay, execute: item)
+            }
+        }
+        .onDisappear {
+            hoverFocusWorkItem?.cancel()
+            hoverFocusWorkItem = nil
         }
     }
 }

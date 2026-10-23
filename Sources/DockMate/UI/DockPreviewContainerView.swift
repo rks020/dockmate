@@ -12,6 +12,7 @@ public struct DockPreviewContainerView: View {
     public let onSelectWindow: (WindowInfo) -> Void
     public let onCloseWindow: (WindowInfo) -> Void
     public let onMinimizeWindow: (WindowInfo) -> Void
+    public var onHoverFocusWindow: ((WindowInfo) -> Void)? = nil
     public let onLaunchNewWindow: () -> Void
     public let onQuitApp: () -> Void
 
@@ -102,7 +103,8 @@ public struct DockPreviewContainerView: View {
                             previewSize: settings.previewSize,
                             onSelect: onSelectWindow,
                             onClose: onCloseWindow,
-                            onMinimize: onMinimizeWindow
+                            onMinimize: onMinimizeWindow,
+                            onHoverFocus: onHoverFocusWindow
                         )
                     }
                 }

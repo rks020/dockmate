@@ -61,6 +61,11 @@ public class PreviewPanel: NSPanel {
             onMinimizeWindow: { win in
                 WindowEngine.shared.toggleMinimize(win)
             },
+            onHoverFocusWindow: { [weak self] win in
+                // Only raise while the panel is still open and the window isn't minimized
+                guard let self = self, self.isVisible, !win.isMinimized else { return }
+                WindowEngine.shared.focusWindow(win)
+            },
             onLaunchNewWindow: { [weak self] in
                 if let pid = dockItem.processIdentifier, let app = NSRunningApplication(processIdentifier: pid) {
                     app.activate()

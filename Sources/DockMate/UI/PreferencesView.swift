@@ -122,6 +122,22 @@ public struct PreferencesView: View {
                     }
                     Slider(value: $settings.dismissDelay, in: 0.10...0.60, step: 0.05)
                 }
+
+                Toggle("Üzerine Gelince Pencereyi Öne Getir", isOn: $settings.focusOnHover)
+                    .toggleStyle(.checkbox)
+
+                if settings.focusOnHover {
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Text("Öne Getirme Gecikmesi:")
+                            Spacer()
+                            Text("\(Int(settings.focusOnHoverDelay * 1000)) ms")
+                                .font(.system(.body, design: .monospaced))
+                                .foregroundColor(.secondary)
+                        }
+                        Slider(value: $settings.focusOnHoverDelay, in: 0.0...1.0, step: 0.05)
+                    }
+                }
             }
 
             Section(header: Text("Görünüm Seçenekleri").font(.headline)) {

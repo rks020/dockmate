@@ -38,6 +38,8 @@ public class SettingsManager: ObservableObject {
     @AppStorage("launchAtLogin") public var launchAtLogin: Bool = false
     @AppStorage("showAppIconBadge") public var showAppIconBadge: Bool = true
     @AppStorage("windowLimit") public var windowLimit: Int = 8
+    @AppStorage("focusOnHover") public var focusOnHover: Bool = true
+    @AppStorage("focusOnHoverDelay") public var focusOnHoverDelay: Double = 0.25
 
     public var previewSize: PreviewSize {
         get {
