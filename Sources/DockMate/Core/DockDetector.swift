@@ -14,11 +14,15 @@ public class DockDetector: ObservableObject {
 
     /// Finds the exact DockItem currently under the mouse location using direct Accessibility hit-testing.
     public func dockItem(at cocoaPoint: CGPoint) -> DockItem? {
-        guard let screen = NSScreen.main ?? NSScreen.screens.first else { return nil }
+        // Use the screen under the mouse (NSScreen.main follows keyboard focus, not the cursor)
+        guard let primary = NSScreen.screens.first,
+              let screen = NSScreen.screens.first(where: { $0.frame.contains(cocoaPoint) }) ?? NSScreen.main else { return nil }
+        let primaryHeight = primary.frame.height
         let dockHeight = screen.frame.height - screen.visibleFrame.height + 25
 
-        // Only evaluate if mouse is within the bottom dock strip
-        guard cocoaPoint.y >= 0 && cocoaPoint.y <= dockHeight else {
+        // Only evaluate if mouse is within the bottom dock strip of that screen
+        let relativeY = cocoaPoint.y - screen.frame.minY
+        guard relativeY >= 0 && relativeY <= dockHeight else {
             return nil
         }
 
@@ -28,7 +32,7 @@ public class DockDetector: ObservableObject {
 
         let dockElement = AXUIElementCreateApplication(dockApp.processIdentifier)
         let axX = Float(cocoaPoint.x)
-        let axY = Float(screen.frame.height - cocoaPoint.y)
+        let axY = Float(primaryHeight - cocoaPoint.y)
 
         var hitRef: AXUIElement?
         let res = AXUIElementCopyElementAtPosition(dockElement, axX, axY, &hitRef)
@@ -59,7 +63,7 @@ public class DockDetector: ObservableObject {
 
         guard size.width > 0 && size.height > 0 else { return nil }
 
-        let cocoaY = screen.frame.height - pos.y - size.height
+        let cocoaY = primaryHeight - pos.y - size.height
         let screenBounds = CGRect(x: pos.x, y: cocoaY, width: size.width, height: size.height)
 
         var bundleID: String? = nil
